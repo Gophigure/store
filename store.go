@@ -107,24 +107,20 @@ func (s *Store[T, K]) Get(key T) (K, bool) {
 		s.mu.Unlock()
 	}
 
-	v, ok := s.dirty[key]
-	if ok {
-		return *v, ok
-	}
-
 	return *new(K), false
 }
 
-// Delete removes a key from the Store, no-op if no value is held.
-func (s *Store[T, K]) Delete(key T) {
+// Pluck both retrieves and removes a key from the Store.
+func (s *Store[T, K]) Pluck(key T) (K, bool) {
 	clean := s.ensureClean()
-	if _, ok := clean[key]; ok {
+	if val, ok := clean[key]; ok {
 		delete(clean, key)
+		return *val, true
 	} else if !ok && s.stale {
 		s.mu.Lock()
-		_, ok = clean[key]
-		// re-check after acquiring lock
+		val, ok = clean[key]
 		if !ok && s.stale {
+			val = s.dirty[key]
 			delete(s.dirty, key)
 			s.misses++
 			if s.misses >= len(s.dirty) {
@@ -132,9 +128,14 @@ func (s *Store[T, K]) Delete(key T) {
 				s.dirty, s.misses = make(map[T]*K, 1), 0
 			}
 		}
-		s.mu.Unlock()
+		return *val, ok
 	}
+
+	return *new(K), false
 }
+
+// Delete removes a key from the Store, no-op if no value is held.
+func (s *Store[T, K]) Delete(key T) { _, _ = s.Pluck(key) }
 
 // ForEach calls the provided function for each value stored.
 func (s *Store[T, K]) ForEach(f func(key T, value K)) {

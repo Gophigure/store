@@ -26,6 +26,23 @@ func TestStore(t *testing.T) {
 	store.Delete("one")
 
 	if _, ok := store.Get("one"); ok {
-		t.Errorf("expected one to not be present")
+		t.Errorf("expected key \"one\" to not be present")
+	} else {
+		t.Logf("confirmed key \"one\" deleted successfully")
+	}
+
+	if two, ok := store.Pluck("two"); !ok {
+		t.Errorf("expected key \"two\" to be present")
+	} else if two != 2 {
+		t.Errorf("expected plucked key \"two\" to equal 2 but got %v", two)
+	} else {
+		t.Logf("retrieved key \"two\" with value %v with Pluck", 2)
+	}
+
+	_, ok := store.Get("two")
+	if ok {
+		t.Errorf("expected key \"two\" to not be present")
+	} else {
+		t.Logf("confirmed key \"two\" plucked successfully")
 	}
 }
