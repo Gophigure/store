@@ -13,6 +13,8 @@ safety using <code>1.18</code> generics.
 
 ### Table of Contents
 
+- [Why?](#why)
+- [Features](#features)
 - [Quick Start](#quick-start)
 - [Licensing](#licensing)
 
@@ -27,9 +29,32 @@ usage is always a win.
 
 ---
 
+### Features
+
+- Supports concurrency
+- Type-safe
+- No usage of `unsafe.Pointer`
+- `Store.Set`  
+  *Creates or overrides a key and stores a value associated with it.*
+- `Store.Get`  
+  *Attempts to retrieve the value under a key in the store.*
+- `Store.GetOrSet`  
+  *Attempts to retrieve the value under a key in the store, if it fails it will
+  store the provided value instead.*
+- `Store.Pluck`  
+  *Removes a key and its associated value from the store, but returns the
+  removed value.*
+- `Store.Delete`  
+  *Removes a key and its associated value from the store.*
+- `Store.ForEach`  
+  *Takes a function as a parameter and iterates over the Store's values, calling
+  the function for each value.*
+
+---
+
 ### Quick Start
 
-Store is both safe and incredibly easy to use, the below example shows how to
+Store is incredibly easy to use, the below example shows how to
 both get and set keys. You'll also notice how no type casting is needed when
 retrieving values thanks to generics.
 
@@ -45,14 +70,14 @@ import (
 )
 
 func main() {
-	store := new(store.Store[string, int])
+	myStore := new(store.Store[string, int]) // you must initialize a Store using new.
 
-	store.Set("two", 2)
+	myStore.Set("two", 2)
 
-	if two, ok := store.Get("two"); ok {
+	if two, ok := myStore.Get("two"); ok {
 		fmt.Println(two) // 2
 
-		store.Set("four", two+2) // stores 4 under "four" as generics remove the need for type casting
+		myStore.Set("four", two+2) // stores 4 under "four" as generics remove the need for type casting
 	}
 }
 ```
