@@ -1,0 +1,51 @@
+name: "Bug Report"
+description: "File a bug report."
+title: "[bug]: "
+labels: ["bug", "triage"]
+assignees:
+  - "Sepruko"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to submit a bug report, we greatly appreciate it!
+  - type: textarea
+    id: "what-went-wrong"
+    attributes:
+      label: "What went wrong?"
+      description: |
+        Tell us what went wrong when you encountered the issue.
+      placeholder: |
+        Ensure to describe what you did leading up to the problem, giving us steps to reproduce the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: "expected-behavior"
+    attributes:
+      label: "Expected behavior"
+      description: |
+        Tell us what behavior was expected, instead of issue.
+      placeholder: |
+        Don't say you expected it "not to break" or something to that effect.
+    validations:
+      required: true
+  - type: dropdown
+    id: "version"
+    attributes:
+      label: "Version"
+      description: |
+        What version of Store were you using?
+      options:
+        - 1.0.0
+        - 1.1.0
+    validations:
+      required: true
+  - type: checkboxes
+    id: "agreement"
+    attributes:
+      label: "Agreement"
+      description: |
+        By checking the box below you agree that you're submitting a bug report that follows our contribution guidelines.
+      options:
+        - label: "I agree"
+          required: true

@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "Discussions"
+    url: "https://github.com/Gophigure/store/discussions/categories/q-a"
+    about: |
+      If you're only looking to ask a question, consider visiting the Q&A section of the repository's Discussions.
+  - name: "Discord Server"
+    url: "https://discord.gg/7jPSgv5x76"
+    about: |
+      If you need help regarding any of Gophigure's projects, don't hesitate to visit our Discord server.
