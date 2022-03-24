@@ -152,3 +152,12 @@ func (s *Store[T, K]) ForEach(f func(key T, value K)) {
 	}
 	s.mu.Unlock()
 }
+
+// Reset removes all stored data from the Store.
+func (s *Store[T, K]) Reset() {
+	s.mu.Lock()
+	m := make(map[T]*K)
+	s.clean.Store(m)
+	s.dirty, s.stale, s.misses = m, false, 0
+	s.mu.Unlock()
+}
