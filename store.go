@@ -11,7 +11,6 @@ import (
 // Store is a go-routine safe way to store an arbitrary map. Its zero-value is
 // safe to use. It must not be copied after first use.
 type Store[T comparable, K any] struct {
-	_      [0]func() // prevent Store{} & comparison
 	mu     sync.Mutex
 	clean  atomic.Value
 	stale  bool
